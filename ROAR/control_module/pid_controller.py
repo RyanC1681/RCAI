@@ -21,6 +21,7 @@ class PIDController(Controller):
         self.throttle_boundary = throttle_boundary
         self.steering_boundary = steering_boundary
         self.config = json.load(Path(agent.agent_settings.pid_config_file_path).open(mode='r'))
+        self.config = self.agent.agent_settings.pid_values # ROAR Academy
         self.long_pid_controller = LongPIDController(agent=agent,
                                                      throttle_boundary=throttle_boundary,
                                                      max_speed=self.max_speed,
@@ -36,6 +37,21 @@ class PIDController(Controller):
         throttle = self.long_pid_controller.run_in_series(next_waypoint=next_waypoint,
                                                           target_speed=kwargs.get("target_speed", self.max_speed))
         steering = self.lat_pid_controller.run_in_series(next_waypoint=next_waypoint)
+        if (steering) > 0.5 and Vehicle.get_speed(self.agent.vehicle) > 150:
+            throttle = -1
+            steering = steering - 0.13
+        if (steering) > 0.3 and (steering) <= 0.5 and Vehicle.get_speed(self.agent.vehicle) > 150:
+            throttle = -0.85
+            steering = steering - 0.13
+        if (steering) > 0.2 and abs(steering) <= 0.3 and Vehicle.get_speed(self.agent.vehicle) > 150:
+            throttle = -0.75
+            steering = steering - 0.13
+        if abs(steering) <= 0.2 and Vehicle.get_speed(self.agent.vehicle) < 150:
+            throttle = 1
+        if (next_waypoint.location.x) > 600 and (next_waypoint.location.x) < 700 and (next_waypoint.location.y) > 4 and (next_waypoint.location.y) < 15 \
+                and (next_waypoint.location.z) > 700 and Vehicle.get_speed(self.agent.vehicle) > 150:
+            throttle = -0.25
+            steering = steering - 0.1        
         return VehicleControl(throttle=throttle, steering=steering)
 
     @staticmethod
