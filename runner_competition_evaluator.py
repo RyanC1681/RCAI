@@ -9,18 +9,25 @@ from ROAR.agent_module.pure_pursuit_agent \
 from ROAR_Sim.carla_client.carla_runner import CarlaRunner
 from typing import Tuple
 from prettytable import PrettyTable
+
+
+# old def compute_score(carla_runner: CarlaRunner, min_bounding_box = np.array([0,-2,30]), max_bounding_box = np.array([60,2,60])) -> Tuple[float, int, bool]:
+
 from ROAR.agent_module.pid_agent import PIDAgent
 
 from pit_stop import PitStop as PitStop
 
-def compute_score(carla_runner: CarlaRunner, min_bounding_box=np.array([5, -5, 0]),
-                  max_bounding_box=np.array([13, 5, 50])) -> Tuple[float, int, int]:
-#        min_bounding_box ():
-#        max_bounding_box ():
+
+def compute_score(carla_runner: CarlaRunner) -> Tuple[float, int, int]:
+#def compute_score(carla_runner: CarlaRunner, min_bounding_box=np.array([5, -5, 0]),
+#                  max_bounding_box=np.array([13, 5, 50])) -> Tuple[float, int, int]:
+
     """
     Calculates the score of the vehicle upon completion of the track based on certain metrics
     Args:
         carla_runner ():
+        min_bounding_box ():
+        max_bounding_box ():
 
     Returns:
         time_elapsed:
@@ -30,21 +37,12 @@ def compute_score(carla_runner: CarlaRunner, min_bounding_box=np.array([5, -5, 0
     """
     time_elapsed: float = carla_runner.end_simulation_time - carla_runner.start_simulation_time
     num_collision: int = carla_runner.agent_collision_counter
-    laps_completed = min(0, carla_runner.completed_lap_count)
-	#laps_completed = 0 if carla_runner.completed_lap_count < 0 else carla_runner.completed_lap_count
-	
-##  *** old info update 210419
-    # lower_diff = carla_runner.end_vehicle_position - min_bounding_box
-    # upper_diff = max_bounding_box - carla_runner.end_vehicle_position
-    # # print('lower diff = ',lower_diff)
-    # # print('upper diff = ',upper_diff)
-    #
-    # lower_check = [True if n > 0 else False for n in lower_diff]
-    # upper_check = [True if n > 0 else False for n in upper_diff]
-    # lap_completed = all(lower_check) and all(upper_check)
-# *** 210419
+    laps_completed = 0 if carla_runner.completed_lap_count < 0 else carla_runner.completed_lap_count
+
     return time_elapsed, num_collision, laps_completed
 
+#def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path, num_laps: int = 10) -> Tuple[
+#    float, int, bool]:
 
 def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path,
         num_laps: int = 10) -> Tuple[float, int, int]:
@@ -66,7 +64,8 @@ def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path,
     #Pit Stop:
     #    Use different kinds of 'set' functions at PitStop to tune/fix your own car!
     #"""
-    pitstop: object = PitStop(carla_config, agent_config)
+    pitstop = PitStop(carla_config, agent_config)
+	#pitstop: object = PitStop(carla_config, agent_config)
     pitstop.set_carla_version(version = "0.9.10")
     pitstop.set_carla_sync_mode(False)
     pitstop.set_autopilot_mode(True)
@@ -74,8 +73,8 @@ def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path,
     pitstop.set_num_laps(num=10)#10
     pitstop.set_output_data_folder_path("./data/output")
     #pitstop.set_output_data_file_name(time.strftime("%Y%m%d-%H%M%S-") + "map-waypoints")
-    pitstop.set_max_speed(speed = 300)
-    pitstop.set_target_speed(speed = 300)
+    pitstop.set_max_speed(speed = 200)
+    pitstop.set_target_speed(speed = 200)
     print(agent_config.target_speed, " target speed")
     #print(agent_config. , " target speed")
     #print(pitstop)
@@ -173,7 +172,7 @@ def main():
     agent_class = PIDAgent
     num_trials = 1
     total_score = 0
-    num_laps = 10
+    num_laps = 2
     table = PrettyTable()
     table.field_names = ["time_elapsed (sec)", "num_collisions", "laps completed"]
     for i in range(num_trials):
