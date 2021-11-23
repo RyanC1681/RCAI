@@ -9,15 +9,29 @@ from ROAR.agent_module.pure_pursuit_agent \
 from ROAR_Sim.carla_client.carla_runner import CarlaRunner
 from typing import Tuple
 from prettytable import PrettyTable
+
+from ROAR.agent_module.jAM1AgentOld import JAM1Agent_old
+#from ROAR.agent_module.jAM3AgentOld import JAM3Agent_old
+#from ROAR.agent_module.pidroll_agent import PIDRollAgent
+
+
+# old def compute_score(carla_runner: CarlaRunner, min_bounding_box = np.array([0,-2,30]), max_bounding_box = np.array([60,2,60])) -> Tuple[float, int, bool]:
+
 from ROAR.agent_module.pid_agent import PIDAgent
 
 from pit_stop import PitStop as PitStop
 
 def compute_score(carla_runner: CarlaRunner) -> Tuple[float, int, int]:
+#def compute_score(carla_runner: CarlaRunner, min_bounding_box=np.array([5, -5, 0]),
+                  max_bounding_box=np.array([13, 5, 50])) -> Tuple[float, int, int]:
+	min_bounding_box ():
+    max_bounding_box ():			  
+	
     """
     Calculates the score of the vehicle upon completion of the track based on certain metrics
     Args:
         carla_runner ():
+
 
     Returns:
         time_elapsed:
@@ -28,12 +42,15 @@ def compute_score(carla_runner: CarlaRunner) -> Tuple[float, int, int]:
     time_elapsed: float = carla_runner.end_simulation_time - carla_runner.start_simulation_time
     num_collision: int = carla_runner.agent_collision_counter
     laps_completed = 0 if carla_runner.completed_lap_count < 0 else carla_runner.completed_lap_count
+	#laps_completed = min(0, carla_runner.completed_lap_count)
+	
 
     return time_elapsed, num_collision, laps_completed
 
+#def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path, num_laps: int = 10) -> Tuple[
+#    float, int, bool]:
 
-def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path,
-        num_laps: int = 10) -> Tuple[float, int, int]:
+def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path, num_laps: int = 10) -> Tuple[float, int, int]:
     """
     Run the agent along the track and produce a score based on certain metrics
     Args:
@@ -156,10 +173,18 @@ def suppress_warnings():
 
 def main():
     suppress_warnings()
+
+    #agent_class = JAM1Agent_old
+    # num_trials = 3
+
+    #agent_class = PIDRollAgent
+	#agent_class = PIDAgent
+	
+    num_trials = 1
     agent_class = PIDAgent
     num_trials = 1#5
     total_score = 0
-    num_laps = 10
+    num_laps = 1
     table = PrettyTable()
     table.field_names = ["time_elapsed (sec)", "num_collisions", "laps completed"]
     for i in range(num_trials):
