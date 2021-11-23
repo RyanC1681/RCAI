@@ -74,20 +74,20 @@ def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path,
     pitstop.set_num_laps(num=10)#10
     pitstop.set_output_data_folder_path("./data/output")
     #pitstop.set_output_data_file_name(time.strftime("%Y%m%d-%H%M%S-") + "map-waypoints")
-    pitstop.set_max_speed(speed = 300)#200)
-    pitstop.set_target_speed(speed = 300)#190
+    pitstop.set_max_speed(speed = 300)
+    pitstop.set_target_speed(speed = 300)
     print(agent_config.target_speed, " target speed")
     #print(agent_config. , " target speed")
     #print(pitstop)
     pitstop.set_steering_boundary(boundary = (-1.0, 1.0))
-    pitstop.set_throttle_boundary(boundary = (0, 2))#1
+    pitstop.set_throttle_boundary(boundary = (0, 2))
 
     pitstop.set_waypoints_look_ahead_values(values={
                                                     "60": 5,
                                                     "80": 10,
                                                     "120": 20,
                                                     "150": 50,
-                                                    "180": 55})#55
+                                                    "180": 55})
     pid_value = {
                     "longitudinal_controller": {
                         "40": {
@@ -171,7 +171,7 @@ def suppress_warnings():
 def main():
     suppress_warnings()
     agent_class = PIDAgent
-    num_trials = 1#5
+    num_trials = 1
     total_score = 0
     num_laps = 10
     table = PrettyTable()
