@@ -46,8 +46,8 @@ class PIDController(Controller):
         if (steering) > 0.1 and abs(steering) <= 0.3 and Vehicle.get_speed(self.agent.vehicle) > 150:
             throttle = -1
             steering = steering - 0.13
-        if abs(steering) <= 0.15 and Vehicle.get_speed(self.agent.vehicle) < 178:
-            throttle = 2
+        if abs(steering) <= 0.15 and Vehicle.get_speed(self.agent.vehicle) < 158:
+            throttle = 1.5
         
         return VehicleControl(throttle=throttle, steering=steering)
 

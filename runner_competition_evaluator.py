@@ -74,7 +74,7 @@ def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path,
     pitstop.set_output_data_folder_path("./data/output")
     #pitstop.set_output_data_file_name(time.strftime("%Y%m%d-%H%M%S-") + "map-waypoints")
     pitstop.set_max_speed(speed = 200)
-    pitstop.set_target_speed(speed = 200)
+    pitstop.set_target_speed(speed = 180)
     print(agent_config.target_speed, " target speed")
     #print(agent_config. , " target speed")
     #print(pitstop)

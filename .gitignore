@@ -148,3 +148,17 @@ misc/depth_nvidia_model_logs
 credential.json
 
 .DS_Store
+ROAR_Sim_bak/configurations/mpc_config.json
+ROAR_Sim_bak/configurations/npc_config.json
+ROAR_Sim_bak/configurations/pid_config.json
+ROAR_Sim_bak/configurations/simple_waypoint_local_planner_config.json
+ROAR_Sim_bak/docs/code_documentations/bridges.md
+ROAR_Sim_bak/docs/code_documentations/roar_autonomous_system/agents.md
+ROAR_Sim_bak/docs/code_documentations/roar_autonomous_system/controls.md
+ROAR_Sim_bak/docs/code_documentations/roar_autonomous_system/perceptions.md
+ROAR_Sim_bak/docs/code_documentations/roar_autonomous_system/planning/behavior_planners.md
+ROAR_Sim_bak/docs/code_documentations/roar_autonomous_system/planning/local_planners.md
+ROAR_Sim_bak/docs/code_documentations/roar_autonomous_system/planning/mission_planners.md
+ROAR_Sim_bak/docs/code_documentations/roar_autonomous_system/utilities/cameras.md
+ROAR_Sim_bak/docs/code_documentations/roar_autonomous_system/utilities/data_structures.md
+ROAR_Sim_bak/docs/code_documentations/roar_autonomous_system/utilities/vehicles.md
