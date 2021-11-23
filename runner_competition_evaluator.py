@@ -13,7 +13,10 @@ from ROAR.agent_module.pid_agent import PIDAgent
 
 from pit_stop import PitStop as PitStop
 
-def compute_score(carla_runner: CarlaRunner) -> Tuple[float, int, int]:
+def compute_score(carla_runner: CarlaRunner, min_bounding_box=np.array([5, -5, 0]),
+                  max_bounding_box=np.array([13, 5, 50])) -> Tuple[float, int, int]:
+#        min_bounding_box ():
+#        max_bounding_box ():
     """
     Calculates the score of the vehicle upon completion of the track based on certain metrics
     Args:
@@ -27,8 +30,19 @@ def compute_score(carla_runner: CarlaRunner) -> Tuple[float, int, int]:
     """
     time_elapsed: float = carla_runner.end_simulation_time - carla_runner.start_simulation_time
     num_collision: int = carla_runner.agent_collision_counter
-    laps_completed = 0 if carla_runner.completed_lap_count < 0 else carla_runner.completed_lap_count
-
+    laps_completed = min(0, carla_runner.completed_lap_count)
+	#laps_completed = 0 if carla_runner.completed_lap_count < 0 else carla_runner.completed_lap_count
+	
+##  *** old info update 210419
+    # lower_diff = carla_runner.end_vehicle_position - min_bounding_box
+    # upper_diff = max_bounding_box - carla_runner.end_vehicle_position
+    # # print('lower diff = ',lower_diff)
+    # # print('upper diff = ',upper_diff)
+    #
+    # lower_check = [True if n > 0 else False for n in lower_diff]
+    # upper_check = [True if n > 0 else False for n in upper_diff]
+    # lap_completed = all(lower_check) and all(upper_check)
+# *** 210419
     return time_elapsed, num_collision, laps_completed
 
 
@@ -165,9 +179,10 @@ def main():
     for i in range(num_trials):
         scores = run(agent_class=agent_class,
                      #agent_config_file_path=Path("./ROAR/configurations/carla/carla_agent_configuration.json"),
-                     #carla_config_file_path=Path("./ROAR_Sim/configurations/configuration.json"),
-					 agent_config_file_path=Path("./ROAR_Sim/configurations/agent_configuration.json"),
+					 agent_config_file_path=Path("./ROAR/configurations/carla/agent_configuration.json"),
                      carla_config_file_path=Path("./ROAR_Sim/configurations/configuration.json"),
+					 #agent_config_file_path=Path("./ROAR_Sim/configurations/agent_configuration.json"),
+                     #carla_config_file_path=Path("./ROAR_Sim/configurations/configuration.json"),
                      num_laps=num_laps)
         table.add_row(scores)
     print(table)
