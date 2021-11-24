@@ -37,17 +37,17 @@ class PIDController(Controller):
         throttle = self.long_pid_controller.run_in_series(next_waypoint=next_waypoint,
                                                           target_speed=kwargs.get("target_speed", self.max_speed))
         steering = self.lat_pid_controller.run_in_series(next_waypoint=next_waypoint)
-        if (steering) > 0.5 and Vehicle.get_speed(self.agent.vehicle) > 150:
+        if (steering) > 0.5 and Vehicle.get_speed(self.agent.vehicle) > 100:
+            throttle = -1
+            steering = steering - 0.15
+        if (steering) > 0.3 and (steering) <= 0.5 and Vehicle.get_speed(self.agent.vehicle) > 100:
             throttle = -1
             steering = steering - 0.13
-        if (steering) > 0.3 and (steering) <= 0.5 and Vehicle.get_speed(self.agent.vehicle) > 150:
-            throttle = -1
-            steering = steering - 0.13
-        if (steering) > 0.1 and abs(steering) <= 0.3 and Vehicle.get_speed(self.agent.vehicle) > 150:
-            throttle = -1
-            steering = steering - 0.13
-        if abs(steering) <= 0.15 and Vehicle.get_speed(self.agent.vehicle) < 158:
-            throttle = 1.5
+        if abs(steering) > 0.1 and abs(steering) <= 0.3 and Vehicle.get_speed(self.agent.vehicle) > 100:
+            throttle = 0
+            steering = steering * 0.5
+        if abs(steering) <= 0.3 and Vehicle.get_speed(self.agent.vehicle) < 100:
+            throttle = 1
         
         return VehicleControl(throttle=throttle, steering=steering)
 
@@ -75,7 +75,7 @@ class LongPIDController(Controller):
         self._dt = dt
 
     def run_in_series(self, next_waypoint: Transform, **kwargs) -> float:
-        target_speed = max(self.max_speed, kwargs.get("target_speed", self.max_speed))
+        target_speed = min(self.max_speed, kwargs.get("target_speed", self.max_speed))
         current_speed = Vehicle.get_speed(self.agent.vehicle)
 
         k_p, k_d, k_i = PIDController.find_k_values(vehicle=self.agent.vehicle, config=self.config)
