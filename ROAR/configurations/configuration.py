@@ -78,10 +78,10 @@ class Configuration(BaseModel):
     num_laps: int = Field(default=1, description="Number of laps to run for")
     output_data_folder_path: str = Field(default="./data/output", description="path to save newly generated waypoints txt file.")
     output_data_file_name: str = Field(default="map_waypoints", description="file name for a newly generated waypoints txt file.")             
-    max_speed: float = Field(default=300, description="maximum speed in which the vehicle can drive at")
-    target_speed: int = Field(default=280, description="The tracking speed that the pid controller is trying to achieve")
+    max_speed: float = Field(default=200, description="maximum speed in which the vehicle can drive at")
+    target_speed: int = Field(default=120, description="The tracking speed that the pid controller is trying to achieve")
     steering_boundary: tuple = Field(default=(-1,1), description="maximum and minimum boundary for steering") # ROAR Academy:
-    throttle_boundary: tuple = Field(default=(0,2), description="maximum and minimum boundary for steering") # ROAR Academy:
+    throttle_boundary: tuple = Field(default=(0,1), description="maximum and minimum boundary for steering") # ROAR Academy:
     waypoints_look_ahead_values: dict = Field(default={"60": 5, "80": 10, "120": 20, "180": 50}) # ROAR Academy:
     simple_waypoint_local_planner_config_file_path: str = \
         Field(default="./ROAR_Sim/configurations/simple_waypoint_local_planner_config.json")
