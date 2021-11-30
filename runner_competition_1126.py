@@ -186,8 +186,8 @@ def main():
     table.field_names = ["time_elapsed (sec)", "num_collisions", "laps completed"]
     for i in range(num_trials):
         scores = run(agent_class=agent_class,
-                     #agent_config_file_path=Path("./ROAR/configurations/carla/carla_agent_configuration.json"),
-					 agent_config_file_path=Path("./ROAR/configurations/carla/agent_configuration.json"),
+                     agent_config_file_path=Path("./ROAR/configurations/carla/carla_agent_configuration.json"),
+					 #agent_config_file_path=Path("./ROAR/configurations/carla/agent_configuration.json"),
                      carla_config_file_path=Path("./ROAR_Sim/configurations/configuration.json"),
 					 #agent_config_file_path=Path("./ROAR_Sim/configurations/agent_configuration.json"),
                      #carla_config_file_path=Path("./ROAR_Sim/configurations/configuration.json"),
