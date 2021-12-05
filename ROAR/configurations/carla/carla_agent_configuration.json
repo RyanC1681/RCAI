@@ -65,8 +65,8 @@
       [0,0,-1]
     ]
   },
-  "waypoint_file_path": "./ROAR_Sim/data/berkeley_minor_waypoints.txt",
-  "pid_config_file_path": "./ROAR_Sim/configurations/pid_config.json",
+  "waypoint_file_path": "./ROAR/data/berkeley_minor_waypoints.txt",
+  "pid_config_file_path": "./ROAR/configurations/pid_config.json",
   "simple_waypoint_local_planner_config_file_path": "./ROAR_Sim/configurations/simple_waypoint_local_planner_config.json",
   "output_data_folder_path": "./data/output",
   "enable_autopilot": true,
