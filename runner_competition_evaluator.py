@@ -19,10 +19,11 @@ from ROAR.agent_module.pid_agent import PIDAgent
 from pit_stop import PitStop as PitStop
 
 
-def compute_score(carla_runner: CarlaRunner) -> Tuple[float, int, int]:
+#def compute_score(carla_runner: CarlaRunner) -> Tuple[float, int, int]:
 #def compute_score(carla_runner: CarlaRunner, min_bounding_box=np.array([5, -5, 0]),
 #                  max_bounding_box=np.array([13, 5, 50])) -> Tuple[float, int, int]:
-
+def compute_score(carla_runner: CarlaRunner, min_bounding_box=np.array([-815, 20, -760]),
+                  max_bounding_box=np.array([-770, 120, -600])) -> Tuple[float, int, int]:
     """
     Calculates the score of the vehicle upon completion of the track based on certain metrics
     Args:
@@ -85,9 +86,9 @@ def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path,
     pitstop.set_waypoints_look_ahead_values(values={
                                                     "60": 5,
                                                     "80": 10,
-                                                    "120": 20,
-                                                    "150": 50,
-                                                    "180": 55})
+                                                    "100": 20,
+                                                    "120": 50,
+                                                    "150": 55})
     pid_value = {
                     "longitudinal_controller": {
                         "40": {
@@ -96,56 +97,63 @@ def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path,
                             "Ki": 0
                         },
                         "60": {
-                            "Kp": 0.5,
+                            "Kp": 0.7,
                             "Kd": 0.2,
                             "Ki": 0
                         },
-                        "150": {
-                            "Kp": 0.2,
-                            "Kd": 0.1,
-                            "Ki": 0.1
+                        "80": {
+                            "Kp": 0.5,
+                            "Kd": 0.15,
+                            "Ki": 0.05
                         },
-                        "180": {
-                            "Kp": 0.17,
-                            "Kd": 0.12,
-                            "Ki": 0.12
-                        }
-                    },
+                        "100": {
+                            "Kp": 0.5,
+                            "Kd": 0.1,
+                            "Ki": 0
+                        },
+						"120": {
+                			"Kp": 0.2,
+                			"Kd": 0.1,
+                			"Ki": 0.1
+                    	}
+					},	
                     "latitudinal_controller": {
+			
                         "60": {
                             "Kp": 0.8,
                             "Kd": 0.1,
-                            "Ki": 0.1
+                            "Ki": 0.2
                         },
-                        "100": {
+                        "80": {
                             "Kp": 0.6,
                             "Kd": 0.2,
                             "Ki": 0.1
                         },
-                        "150": {
+                        "100": {
                             "Kp": 0.5,
                             "Kd": 0.2,
                             "Ki": 0.1
                         },
-                        "180": {
+                        "120": {
                             "Kp": 0.4,
                             "Kd": 0.2,
-                            "Ki": 0.11
+                            "Ki": 0.2
                         }
                     }
     }
     pitstop.set_pid_values(pid_value)
 
     """Passing configurations to Carla and Agent"""
-    carla_runner = CarlaRunner(carla_settings=carla_config, # ROAR Academy: fine
-                               agent_settings=agent_config, # ROAR Academy: fine
-                               npc_agent_class=PurePursuitAgent) 
+    #carla_runner = CarlaRunner(carla_settings=carla_config, # ROAR Academy: fine
+    #                           agent_settings=agent_config, # ROAR Academy: fine
+    #                           npc_agent_class=PurePursuitAgent) 
     # hard code agent config such that it reflect competition requirements
     agent_config.num_laps = num_laps
     carla_runner = CarlaRunner(carla_settings=carla_config,
                                agent_settings=agent_config,
                                npc_agent_class=PurePursuitAgent,
                                competition_mode=True,
+							   start_bbox=np.array([-815, 20, -760, -770, 120, -600]),
                                lap_count=num_laps)
     try:
         my_vehicle = carla_runner.set_carla_world()
@@ -178,9 +186,15 @@ def main():
     table.field_names = ["time_elapsed (sec)", "num_collisions", "laps completed"]
     for i in range(num_trials):
         scores = run(agent_class=agent_class,
+<<<<<<< HEAD
                      #agent_config_file_path=Path("./ROAR/configurations/carla/carla_agent_configuration.json"),
 					 agent_config_file_path=Path("./ROAR/configurations/carla/agent_configuration.json"),
                      carla_config_file_path=Path("./ROAR/configurations/configuration.json"),
+=======
+                     agent_config_file_path=Path("./ROAR/configurations/carla/carla_agent_configuration.json"),
+					 #agent_config_file_path=Path("./ROAR/configurations/carla/agent_configuration.json"),
+                     carla_config_file_path=Path("./ROAR/configurations/configuration.json"),
+>>>>>>> 4225337a231fd990c05542846329fe71506fe1ed
 					 #agent_config_file_path=Path("./ROAR_Sim/configurations/agent_configuration.json"),
                      #carla_config_file_path=Path("./ROAR_Sim/configurations/configuration.json"),
                      num_laps=num_laps)
