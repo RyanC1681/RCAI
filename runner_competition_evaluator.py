@@ -19,10 +19,11 @@ from ROAR.agent_module.pid_agent import PIDAgent
 from pit_stop import PitStop as PitStop
 
 
-def compute_score(carla_runner: CarlaRunner) -> Tuple[float, int, int]:
+#def compute_score(carla_runner: CarlaRunner) -> Tuple[float, int, int]:  [-815, 20, -760] , [-770,120, -600]
 #def compute_score(carla_runner: CarlaRunner, min_bounding_box=np.array([5, -5, 0]),
 #                  max_bounding_box=np.array([13, 5, 50])) -> Tuple[float, int, int]:
-
+def compute_score(carla_runner: CarlaRunner, min_bounding_box=np.array([-815, 20, -760]),
+                  max_bounding_box=np.array([-770,120, -600])) -> Tuple[float, int, int]:
     """
     Calculates the score of the vehicle upon completion of the track based on certain metrics
     Args:
@@ -40,6 +41,7 @@ def compute_score(carla_runner: CarlaRunner) -> Tuple[float, int, int]:
     num_collision: int = carla_runner.agent_collision_counter
     #laps_completed = 0 if carla_runner.completed_lap_count < 0 else carla_runner.completed_lap_count
     laps_completed = min(0, carla_runner.completed_lap_count)
+    #print("laps_completed=", carla_runner.completed_lap_count)#, "time_elapsed=", carla_runner.end_simulation_time, carla_runner.start_simulation_time)
     return time_elapsed, num_collision, laps_completed
 
 #def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path, num_laps: int = 10) -> Tuple[
@@ -77,7 +79,7 @@ def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path,
     pitstop.set_max_speed(speed = 200)
     pitstop.set_target_speed(speed = 120)
     print(agent_config.target_speed, " target speed")
-    #print(agent_config. , " target speed")
+    #print(agent_config.target_speed, " target speed")
     #print(pitstop)
     pitstop.set_steering_boundary(boundary = (-1.0, 1.0))
     pitstop.set_throttle_boundary(boundary = (0, 1))
@@ -146,6 +148,7 @@ def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path,
                                agent_settings=agent_config,
                                npc_agent_class=PurePursuitAgent,
                                competition_mode=True,
+							   #start_bbox=np.array([-815, 20, -760, -770, 120, -600]),
                                lap_count=num_laps)
     try:
         my_vehicle = carla_runner.set_carla_world()
