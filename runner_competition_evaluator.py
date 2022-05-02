@@ -47,7 +47,7 @@ def compute_score(carla_runner: CarlaRunner, min_bounding_box=np.array([-815, 20
 #    float, int, bool]:
 
 def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path,
-        num_laps: int = 10) -> Tuple[float, int, int]:
+        num_laps: int = 2) -> Tuple[float, int, int]:
     """
     Run the agent along the track and produce a score based on certain metrics
     Args:
@@ -72,7 +72,7 @@ def run(agent_class, agent_config_file_path: Path, carla_config_file_path: Path,
     pitstop.set_carla_sync_mode(True)
     pitstop.set_autopilot_mode(True)
     #pitstop.set_car_color(CarlaCarColor(r = 0,g = 0,b = 255,a = 255))
-    pitstop.set_num_laps(num=10)
+    pitstop.set_num_laps(num=2)
     pitstop.set_output_data_folder_path("./data/output")
     pitstop.set_output_data_file_name(time.strftime("%Y%m%d-%H%M%S-") + "map-waypoints")
     pitstop.set_max_speed(speed = 100)
@@ -179,9 +179,9 @@ def suppress_warnings():
 def main():
     suppress_warnings()
     agent_class = PIDAgent
-    num_trials = 1
+    num_trials = 5
     total_score = 0
-    num_laps = 10
+    num_laps = 2
     table = PrettyTable()
     table.field_names = ["time_elapsed (sec)", "num_collisions", "laps completed"]
     for i in range(num_trials):
