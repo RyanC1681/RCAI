@@ -15,7 +15,7 @@ class PitStop:
         version="0.9.9"
         version="0.9.10"
     """
-    def set_carla_version (self, version: str="0.9.9"):
+    def set_carla_version (self, version: str="0.9.12"):
         self.carla_config.carla_version = version 
         
     """

@@ -110,6 +110,6 @@ class Configuration(BaseModel):
                                         }
                                     }
                             ) # ROAR Academy 
-    pid_config_file_path: str = Field(default="./ROAR_Sim/configurations/pid_config.json")
-    lqr_config_file_path: str = Field(default="./ROAR_Sim/configurations/lqr_config.json")
+    pid_config_file_path: str = Field(default="./ROAR/configurations/pid_config.json")
+    lqr_config_file_path: str = Field(default="./ROAR/configurations/lqr_config.json")
     

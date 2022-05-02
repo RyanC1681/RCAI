@@ -16,7 +16,7 @@ class OccuMapDemoDrivingAgent(Agent):
                                               world_coord_resolution=1,
                                               occu_prob=0.99,
                                               max_points_to_convert=5000)
-        occu_map_file_path = Path("./ROAR_Sim/data/easy_map_cleaned_global_occu_map.npy")
+        occu_map_file_path = Path("./ROAR_Sim/data/final_map2.npy")
         self.occupancy_map.load_from_file(file_path=occu_map_file_path)
 
     def run_step(self, sensors_data: SensorsData, vehicle: Vehicle) -> VehicleControl:

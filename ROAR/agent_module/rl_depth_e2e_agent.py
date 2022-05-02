@@ -35,7 +35,7 @@ class RLDepthE2EAgent(Agent):
         # the part about visualization
         self.occupancy_map = OccupancyGridMap(agent=self, threaded=True)
 
-        occ_file_path = Path("../ROAR_Sim/data/easy_map_cleaned_global_occu_map.npy")
+        occ_file_path = Path("../ROAR_Sim/data/final_map2.npy")
         self.occupancy_map.load_from_file(occ_file_path)
 
         self.plan_lst = list(self.mission_planner.produce_single_lap_mission_plan())

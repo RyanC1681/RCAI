@@ -6,7 +6,7 @@ from ROAR.utilities_module.data_structures_models import (
     Transform,
 )
 from typing import Optional
-import cv2
+#import cv2
 
 
 class Camera(BaseModel):

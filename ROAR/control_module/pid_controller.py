@@ -39,18 +39,38 @@ class PIDController(Controller):
         steering = self.lat_pid_controller.run_in_series(next_waypoint=next_waypoint)
         if (steering) > 0.5 and Vehicle.get_speed(self.agent.vehicle) > 100:
             throttle = -1
-            steering = steering - 0.15
+            steering = steering - 0.35#25
+        if (steering) > -0.5 and Vehicle.get_speed(self.agent.vehicle) > 100:
+            throttle = -1
+            steering = steering + 0.35
         if (steering) > 0.3 and (steering) <= 0.5 and Vehicle.get_speed(self.agent.vehicle) > 100:
             throttle = -1
-            steering = steering - 0.13
-        if abs(steering) > 0.1 and abs(steering) <= 0.3 and Vehicle.get_speed(self.agent.vehicle) > 100:
-            steering = steering * 0.5
-            throttle = 0
+            steering = steering - 0.25#15
+        if (steering) > -0.3 and (steering) <= -0.5 and Vehicle.get_speed(self.agent.vehicle) > 100:
+            throttle = -1#0.75
+            steering = steering + 0.25#3
+        if (steering) > 0.1 and (steering) <= 0.3 and Vehicle.get_speed(self.agent.vehicle) > 100:
             #steering = steering * 0.5
-        if abs(steering) <= 0.1 and Vehicle.get_speed(self.agent.vehicle) < 110:
-            steering = steering * 0.5
+            throttle = -0.5
+            steering = steering - 0.2
+        if (steering) > -0.1 and (steering) <= -0.3 and Vehicle.get_speed(self.agent.vehicle) > 100:
+            #steering = steering * 0.5
+            throttle = -0.5
+            steering = steering + 0.2#15
+        if abs(steering) <= 0.1 and Vehicle.get_speed(self.agent.vehicle) < 100 and (next_waypoint.location.y) < 300:
+            #steering = steering * 0.8
+            #steering = steering - 0.05
             throttle = 1
-        
+        if abs(steering) <= 0.1 and Vehicle.get_speed(self.agent.vehicle) < 100 and (next_waypoint.location.y) > 350 and (next_waypoint.location.y) < 450:
+            #steering = steering * 0.8
+            #steering = steering - 0.05
+            throttle = 0.6
+        if abs(steering) <= 0.1 and Vehicle.get_speed(self.agent.vehicle) < 100 and (next_waypoint.location.y) > 450:
+            #steering = steering * 0.8
+            #steering = steering - 0.05
+            throttle = 0.8
+        #else:
+        #    throttle = 0.8
         return VehicleControl(throttle=throttle, steering=steering)
 
     @staticmethod
